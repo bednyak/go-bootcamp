@@ -1,0 +1,4 @@
+ID: a-book
+Title: A Book
+Description: A nice book
+Price: USD 8.88
