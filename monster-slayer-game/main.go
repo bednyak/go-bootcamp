@@ -1,10 +1,12 @@
 package main
 
 import (
+	"monster-slayer-game/actions"
 	"monster-slayer-game/interaction"
 )
 
 var currentRound = 0
+var gameRounds = []interaction.RoundData{}
 
 func main() {
 	startGame()
@@ -15,7 +17,7 @@ func main() {
 		winner = executeRound()
 	}
 
-	endGame()
+	endGame(winner)
 }
 
 func startGame() {
@@ -29,17 +31,45 @@ func executeRound() string {
 	interaction.ShowAvailableActions(isSpecialRound)
 	userChoice := interaction.GetPlayerChoice(isSpecialRound)
 
+	var playerAttackDmg int // default value: 0
+	var playerHealValue int
+	var monsterAttackDmg int
+
 	if userChoice == "ATTACK" {
-
+		playerAttackDmg = actions.AttackMonster(false)
 	} else if userChoice == "HEAL" {
-
+		playerHealValue = actions.HealPlayer()
 	} else {
+		playerAttackDmg = actions.AttackMonster(true)
+	}
 
+	monsterAttackDmg = actions.AttackPlayer()
+
+	playerHealth, monsterHealth := actions.GetHealthAmounts()
+
+	roundData := interaction.RoundData{
+		Action:           userChoice,
+		PlayerHealth:     playerHealth,
+		MonsterHealth:    monsterHealth,
+		PlayerAttackDmg:  playerAttackDmg,
+		PlayerHealValue:  playerHealValue,
+		MonsterAttackDmg: monsterAttackDmg,
+	}
+
+	interaction.PrintRoundStatistics(&roundData)
+
+	gameRounds = append(gameRounds, roundData)
+
+	if playerHealth <= 0 {
+		return "Monster"
+	} else if monsterHealth <= 0 {
+		return "Player"
 	}
 
 	return ""
 }
 
-func endGame() {
-
+func endGame(winner string) {
+	interaction.DeclareWinner(winner)
+	interaction.WriteLogFile(&gameRounds)
 }
