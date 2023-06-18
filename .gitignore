@@ -1,2 +1,10 @@
 monster-slayer-game/gamelog.txt
 .idea
+interfaces/user-log.txt
+more-functions/data.txt
+/embedding/user1.txt
+/embedding/user2.txt
+/embedding/max.txt
+/concurrency/dummy-data.txt
+/concurrency/500000_1.txt
+/concurrency/500000_2.txt

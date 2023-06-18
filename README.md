@@ -7,3 +7,18 @@ go mod init [module-name]
 ```
 go run .
 ```
+
+### To check go module and if not exist - download
+```
+go mod tidy
+```
+
+### To download 3d-party module
+```
+go get [url]
+```
+
+### To create go executable file
+```
+go build
+```

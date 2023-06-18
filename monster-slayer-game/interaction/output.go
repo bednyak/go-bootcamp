@@ -2,6 +2,7 @@ package interaction
 
 import (
 	"fmt"
+	"github.com/common-nighthawk/go-figure"
 	"os"
 )
 
@@ -15,7 +16,8 @@ type RoundData struct {
 }
 
 func PrintGreeting() {
-	fmt.Println("MONSTER SLAYER")
+	asciiFigure := figure.NewFigure("MONSTER SLAYER", "", true)
+	asciiFigure.Print()
 	fmt.Println("Starting a new game...")
 	fmt.Println("Good luck")
 }
@@ -47,13 +49,27 @@ func PrintRoundStatistics(roundData *RoundData) {
 
 func DeclareWinner(winner string) {
 	fmt.Println("-------------------------")
-	fmt.Println("GAME OVER!")
+	asciiFigure := figure.NewColorFigure("GAME OVER!", "", "red", true)
+	asciiFigure.Print()
 	fmt.Println("-------------------------")
 	fmt.Printf("%v won!\n", winner)
 }
 
 func WriteLogFile(rounds *[]RoundData) {
-	file, err := os.Create("gamelog.txt")
+
+	// May fix problem if compiled go script don't save in correct place. This solution won't run if you just launch 'go run .'
+
+	/*exPath, err := os.Executable()
+
+	if err != nil {
+		fmt.Println("Writing log file failed. Exiting!")
+	}
+
+	exPath = filepath.Dir(exPath)
+
+	file, err := os.Create(exPath + "/gamelog.txt")*/
+
+	file, err := os.Create("/gamelog.txt")
 
 	if err != nil {
 		fmt.Println("Saving a log file failed. Exiting.")
